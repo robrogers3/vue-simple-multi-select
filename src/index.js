@@ -1,2 +1,2 @@
-import VueSingleSelect from './VueSingleSelect.vue';
-export default VueSingleSelect;
+import VueMultiSelect from './VueMultiSelect.vue';
+export default VueMultiSelect;

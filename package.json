@@ -1,6 +1,6 @@
 {
-    "name": "vue-multi-select",
-    "version": "1.0.0",
+    "name": "vue-simple-multi-select",
+    "version": "1.0.1",
     "description": "multiple select autocomplete dropdown for vue",
     "main": "dist/index",
     "unpkg": "dist/vue-multi-select.js",

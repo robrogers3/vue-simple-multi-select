@@ -1,43 +1,49 @@
 <template>
-    <div class="multi-select-wrapper" ref="vuesingleselect">
-	<select multiple class="hidden" :name="name">
-	    <option v-for="(option, idx) in selectedOptions" :key="idx" :value="getOptionValue(option)">
-		{{getOptionDescription(option)}}
-	    </option>
-	</select>
-	
-	<div class="relative">
-	    <div class="relative rounded border border-grey hover:border-blue">
-		<ul class="flex list-reset flex-wrap py-px pb-1 pr-1 m-0 text-black">
-		    <li v-for="(option, idx) in selectedOptions" :key="idx" @click="searchText = ''"
-			       class="cursor-pointer border mt-1 ml-1 mb-0 justify-between content-center rounded bg-grey-lighter border-grey border p-1 tracking-tight text-sm leading-tight hover:bg-grey-lighter">
-			<span v-text="getOptionDescription(option)"></span>
-			<span class="pl-2 text-grey-darker mt-px icons" @click="removeOption(idx)">
-			    <svg class="text-sm w-3 h-3 fill-current" aria-hidden="true" viewBox="0 0 512 512">
-				<path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"></path>
-			    </svg>
-			</span>
-		    </li>
-		    <li class="mt-1 ml-1 mb-0 flex-1 w-full" style="min-width: 100px;">
-			<input type="text" ref="search" class="search-input box-size w-full p-1 inline mr-1 outline-none border-none leading-tight"
-			       @click="seedSearchText"
-			       @keyup.enter="setPossibleOption"
-			       @keyup.down="movePointerDown"
-			       @keydown.tab.stop="closeOut"
-			       @keydown.esc.stop="searchText = null"
-			       @keyup.up="movePointerUp"
-			       :placeholder="placeholder"
-			       autocomplete="off"
-			       :required="required"
-			       v-model="searchText"
-			>
-		    </li>
-		</ul>
-	    </div>
-	    <ul tabindex="-1" ref="options" v-show="matchingOptions"
-                :style="{'max-height': maxHeight}" style="z-index: 100;padding"
+    <div :class="[classes.wrapper]" ref="vuesingleselect">
+        <select multiple class="hidden" :name="name">
+            <option v-for="(option, idx) in selectedOptions" :key="idx" :value="getOptionValue(option)">
+                {{getOptionValue(option)}}
+            </option>
+        </select>
+        
+        <div class="relative text-left" :class="[classes.searchWrapper]">
+            <div class="rounded bordered border-grey hover:border-blue" :class="[isRequired]">
+                <ul class="flex list-reset flex-wrap py-px pb-1 pr-1 m-0 text-black">
+                    <li v-for="(option, idx) in selectedOptions" :key="idx"
+                        @click="seedSearchText"
+                        class="cursor-pointer bordered mt-1 ml-1 mb-0 justify-between content-center rounded bg-grey-lighter border-grey p-1 tracking-tight leading-tight hover:bg-grey-lighter"
+                        :class="[classes.pill]"
+                    >
+                        <span class="text-sm" v-text="getOptionDescription(option)"></span>
+                        <span class="pl-2 text-grey-darker mt-px icons" @click="removeOption(idx)">
+                            <svg class="text-sm w-3 h-3 fill-current" aria-hidden="true" viewBox="0 0 512 512">
+                                <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"></path>
+                            </svg>
+                        </span>
+                    </li>
+                    <li class="mt-1 ml-1 mb-0 flex-1 w-full" style="min-width: 100px;">
+                        <input type="text" ref="search"
+                               class="box-size w-full p-1 inline mr-1 outline-none border-none leading-tight"
+                               :class="[classes.searchInput]"
+                               @click="seedSearchText"
+                               @keyup.enter="setPossibleOption"
+                               @keyup.down="movePointerDown"
+                               @keydown.tab.stop="closeOut"
+                               @keydown.esc.stop="searchText = null"
+                               @keyup.up="movePointerUp"
+                               @keyup.delete="popSelectedOption"
+                               autocomplete="off"
+                               :placeholder="placeholder"
+                               :required="required"
+                               v-model="searchText"
+                        >
+                    </li>
+                </ul>
+            </div>
+            <ul tabindex="-1" ref="options" v-show="matchingOptions"
+                :style="{'max-height': maxHeight}" style="z-index: 100;"
                 :class=[classes.dropdown]
-                class="absolute w-full overflow-auto appearance-none mt-px  text-left list-reset"
+                class="absolute w-full overflow-auto appearance-none mt-px text-left list-reset"
             >
                 <li tabindex="-1"
                     v-for="(option, idx) in matchingOptions" :key="idx"
@@ -55,7 +61,7 @@
                     </slot>
                 </li>
             </ul>
-	</div>
+        </div>
     </div>
 </template>
 <script>
@@ -76,59 +82,72 @@
              if (curr === prev) {
                  return;
              }
-	     
+             
              this.pointer = -1;
          },
          selectedOptions(curr, prev) {
              this.$emit("input", curr);
          }
      },
-
      data() {
          return {
-	     selectedOptions: [],
-	     searchText: null,
-	     selectedOption: null,
-	     dropdownOpen: false,
-	     closed: false
+             selectedOptions: [],
+             searchText: null,
+             selectedOption: null,
+             dropdownOpen: false,
+             closed: false
          };
      },
      props: {
          value: {
              required: true
          },
-	 classes: {
+         // Use classes to override the look and feel
+         // Provide these 7 classes.
+         classes: {
              type: Object,
              required: false,
              default: () => {
                  return {
-		     active: 'active',
-                     wrapper: "select-wrapper",
+                     active: 'active',
+                     wrapper: "multi-select-wrapper",
+                     searchWrapper: "search-wrapper",
+                     searchInput: "search-input",
+                     pill: "pill",
                      required: "required",
                      dropdown: "dropdown"
                  };
              }
          },
+         // Give your input a name
+         // Good for posting forms
          name: {
              type: String,
              required: false,
              default: () => ""
          },
+         // Your list of things for the select   
          options: {
              type: Array,
              required: false,
              default: () => []
          },
+         // Tells vue-simple-multi-select what key to use
+         // for generating option labels
          optionLabel: {
              type: String,
              required: false,
              default: () => null
          },
+         // Tells vue-single-select the value
+         // you want populated in the select for the 
+         // input
          optionKey: {
              type: String,
              required: false,
              default: () => null
          },
+         // Give your input an html element id
          placeholder: {
              type: String,
              required: false,
@@ -139,26 +158,31 @@
              default: () => "220px",
              required: false
          },
+         //Give the input an id
          inputId: {
              type: String,
              default: () => "multi-select",
              required: false
          },
+         // Seed search text with initial value
          initial: {
              type: String,
              required: false,
              default: () => null
          },
+         // Make it required
          required: {
              type: Boolean,
              required: false,
              default: () => false
          },
+         // Max number of results to show.
          maxResults: {
              type: Number,
              required: false,
              default: () => 30
          },
+         //Meh
          tabindex: {
              type: String,
              required: false,
@@ -166,6 +190,17 @@
                  return "";
              }
          },
+         // Remove previously selected options
+         // via the delete key
+         keyboardDelete: {
+             type: Boolean,
+             required: false,
+             default: () => {
+                 return true;
+             }
+         },
+         // Tell vue-single-select what to display
+         // as the selected option
          getOptionDescription: {
              type: Function,
              default(option) {
@@ -181,6 +216,8 @@
                  return option;
              }
          },
+         // Use this to actually give vue-single-select
+         // a value for doing a POST
          getOptionValue: {
              type: Function,
              default(option) {
@@ -196,57 +233,58 @@
              }
          }
      },
-     computed: {
-	 isRequired() {
-             if (!this.required) {
-		 return "";
-             }
-
-             if (this.selectedOptions.length) {
-		 return "";
-             }
-
-             return "required";
-	 }
-     },
      methods: {
-	 seedSearchText() {
+         popSelectedOption() {
+             if (!this.keyboardDelete) {
+                 return;
+             }
+             
+             if (this.searchText === null) {
+                 this.selectedOptions.pop();
+                 return;
+             }
+             
+             if (this.searchText === "") {
+                 this.searchText = null;
+             }
+         },
+         seedSearchText() {
              if (this.searchText !== null) {
                  return;
              }
 
              this.searchText = "";
          },
-	 setPossibleOption() {
-	     if (!this.matchingOptions || !this.matchingOptions.length) {
-		 return;
-	     }
+         setPossibleOption() {
+             if (!this.matchingOptions || !this.matchingOptions.length) {
+                 return;
+             }
 
-	     if (this.pointer === -1) {
-		 this.pointer = 0;
-	     }
+             if (this.pointer === -1) {
+                 this.pointer = 0;
+             }
 
-	     this.setOption(this.matchingOptions[this.pointer]);
-	 },
+             this.setOption(this.matchingOptions[this.pointer]);
+         },
          setOption(option) {
              this.selectedOption = option;
-	     this.selectedOptions.push(option);
-	     this.searchText = null;
-	     this.$nextTick(() => {
-		 this.$refs.search.focus();
-	     });
+             this.selectedOptions.push(option);
+             this.searchText = null;
+             this.$nextTick(() => {
+                 this.$refs.search.focus();
+             });
          },
-	 removeOption(idx) {
-	     this.selectedOptions.splice(idx, 1);
-	     this.$nextTick(() => {
-		 this.$refs.search.focus();
-	     });
-	 },
-	 setPointerIdx(idx) {
+         removeOption(idx) {
+             this.selectedOptions.splice(idx, 1);
+             this.$nextTick(() => {
+                 this.$refs.search.focus();
+             });
+         },
+         setPointerIdx(idx) {
              this.pointer = idx;
          },
          closeOut() {
-	     this.searchText = null;
+             this.searchText = null;
              this.closed = true;
          },
          movePointerDown() {
@@ -264,73 +302,82 @@
                  this.pointer--;
              }
          },
-	 handleClickOutside(e) {
+         handleClickOutside(e) {
              if (this.$el.contains(e.target)) {
                  return;
              }
 
-	     this.closeOut();
+             this.closeOut();
          }
      },
      computed: {
-	 matchingOptions() {
-	     if (this.searchText === null) {
-		 return null;
-	     }
+         matchingOptions() {
+             if (this.searchText === null) {
+                 return null;
+             }
+
              if (this.optionLabel && this.optionKey) {
                  return this.options.filter(
-		     option => this.selectedOptions.findIndex(selected => selected[this.optionKey] === option[this.optionKey]) < 0
-		 ).filter(option => {
-		     return (
-			 option[this.optionLabel]
-			     .toString()
-			     .toLowerCase()
-			     .includes(this.searchText.toString().toLowerCase()) ||
-			 this.searchText
-			     .toString()
-			     .toLowerCase()
-			     .includes(option[this.optionKey].toString().toLowerCase())
-		     );
-		 }).slice(0, this.maxResults);
+                     option => this.selectedOptions.findIndex(selected => selected[this.optionKey] === option[this.optionKey]) < 0
+                 ).filter(option => {
+                     return (
+                         option[this.optionLabel]
+                             .toString()
+                             .toLowerCase()
+                             .includes(this.searchText.toString().toLowerCase()) ||
+                         this.searchText
+                             .toString()
+                             .toLowerCase()
+                             .includes(option[this.optionKey].toString().toLowerCase())
+                     );
+                 }).slice(0, this.maxResults);
              }
 
              if (this.optionLabel) {
-                 return this.options.filter(option => this.selectedOptions.findIndex(
-		     selected => selected[this.optionLabel] === option[this.optionLabel] < 0
-		 ))
-			    .filter(option =>
-				option[this.optionLabel]
-				    .toString()
-				    .toLowerCase()
-				    .includes(this.searchText.toString().toLowerCase())
-                            )
-			    .slice(0, this.maxResults);
+                 return this.options.filter(
+                     option => this.selectedOptions.findIndex(selected => selected[this.optionLabel] === option[this.optionLabel]) < 0
+                 ).filter(option =>
+                     option[this.optionLabel]
+                         .toString()
+                         .toLowerCase()
+                         .includes(this.searchText.toString().toLowerCase())
+                 ).slice(0, this.maxResults);
              }
 
              if (this.optionKey) {
-                 return this.options.filter(option => this.selectedOptions.findIndex(
-		     selected => selected[this.optionKey] === option[this.optionKey] < 0
-		 ))
-			    .filter(option =>
-				this.searchText
-				    .toString()
-				    .toLowerCase()
-				    .includes(option[this.optionKey].toString().toLowerCase())
-                            )
-			    .slice(0, this.maxResults);
+                 return this.options.filter(
+                     option => this.selectedOptions.findIndex(
+                         selected => selected[this.optionKey] === option[this.optionKey]
+                     ) < 0
+                 ).filter(option =>
+                     option[this.optionKey].toString().toLowerCase()
+                                           .includes(this.searchText
+                                                         .toString()
+                                                         .toLowerCase())
+                 ).slice(0, this.maxResults);
              }
 
-             return this.options.filter(option => this.selectedOptions.findIndex(
-		 selected => selected === option < 0
-	     ))
-			.filter(option =>
-                            option
-				.toString()
-				.toLowerCase()
-				.includes(this.searchText.toString().toLowerCase())
-			)
-			.slice(0, this.maxResults);
-         }
+             return this.options.filter(
+                 option => this.selectedOptions.findIndex(
+                     selected => selected === option
+                 ) < 0).filter(option =>
+                     option
+                         .toString()
+                         .toLowerCase()
+                         .includes(this.searchText.toString().toLowerCase())
+                 ).slice(0, this.maxResults);
+         },
+	 isRequired() {
+             if (!this.required) {
+		 return "";
+             }
+
+             if (this.selectedOptions.length) {
+		 return "";
+             }
+
+	     return 'required';
+	 }
      }
  };
 </script>
@@ -395,7 +442,7 @@
  .content-center {
      align-content: center;
  }
- .border {
+ .bordered {
      border-width: 1px;
      border-style: solid;
  }
@@ -586,7 +633,6 @@
      border-radius: 0.25em;
  }
  .search-input {
-
  }
  .icons svg {
      width: 0.75em;
@@ -612,6 +658,7 @@
      line-height: 1.25;
      text-align: left;
      display: inline;
+     width: 99.8%;
  }
  .dropdown > li {
      padding: 0.5em 0.75em;
@@ -629,9 +676,7 @@
      overflow: visible;
  }
  .search-input {
-     _font-family: sans-serif;
      font-size: 100%;
-     _line-height: 1.15;
      margin: 0;
  }
  .select-wrapper,
