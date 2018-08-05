@@ -19,7 +19,7 @@ This **simple**
 	></vue-multi-select>
 ```
 
-<img style="width: 500px" src="https://raw.githubusercontent.com/robrogers3/vue-multi-select/master/multi-select.png vue-simple-multi-select.png">
+<img style="width: 300px" src="https://raw.githubusercontent.com/robrogers3/vue-multi-select/master/vue-simple-multi-select.png">
 
 
 ## What It Does Not Do
