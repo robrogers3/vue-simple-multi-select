@@ -1,6 +1,8 @@
 # vue-simple-multi-select
 
-	A Vue component that makes long, unwieldy select boxes user friendly.
+A Vue component that makes long, unwieldy select boxes user friendly.
+
+[Check out a demo here](https://codesandbox.io/s/18jz68zn77)
 
 ## What it Does
 
@@ -19,7 +21,7 @@ This **simple**
 	></vue-multi-select>
 ```
 
-<img style="width: 500px" src="https://raw.githubusercontent.com/robrogers3/vue-multi-select/master/multi-select.png vue-simple-multi-select.png">
+<img style="width: 400px" src="https://raw.githubusercontent.com/robrogers3/vue-multi-select/master/vue-simple-multi-select.png">
 
 
 ## What It Does Not Do

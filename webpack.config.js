@@ -41,7 +41,6 @@ var config = {
 		    from: path.resolve(__dirname + '/src/'),
 		    to: path.resolve(__dirname + '/dist/'),
 		    ignore: [
-			'index.html',
 			'.DS_Store'
 		    ]
 		}
