@@ -6,9 +6,9 @@ A Vue component that makes long, unwieldy select boxes user friendly.
 
 ## What it Does
 
-vue-simple-multi-select provides an elegant, user-friendly component to replace long, unwieldy multi select elements. 
+vue-simple-multi-select provides an elegant, user-friendly component to replace long, unwieldy multi select elements. Great for users. Simple for developers.
 
-## How simple
+## How simple?
 
 This simple:
 
@@ -18,7 +18,7 @@ This **simple**
 <vue-multi-select
 	v-model="fruit" 
 	:options="['apple','cherry','banana','pear', 'tomato']"
-	></vue-multi-select>
+></vue-multi-select>
 ```
 
 <img style="width: 400px" src="https://raw.githubusercontent.com/robrogers3/vue-multi-select/master/vue-simple-multi-select.png">
@@ -223,141 +223,141 @@ Meh, see props below.
 ## Available Props
 
 ```javascript
-     props: {
-         // This corresponds to v-model
-         value: {
-             required: true
-         },
-         // Use classes to override the look and feel
-         // Provide these 7 classes.
-         classes: {
-             type: Object,
-             required: false,
-             default: () => {
-                 return {
-                     active: 'active',
-                     wrapper: "multi-select-wrapper",
-                     searchWrapper: "search-wrapper",
-                     searchInput: "search-input",
-                     pill: "pill",
-                     required: "required",
-                     dropdown: "dropdown"
-                 };
-             }
-         },
-         // Give your input a name
-         // Good for posting forms
-         name: {
-             type: String,
-             required: false,
-             default: () => ""
-         },
-         // Your list of things for the select   
-         options: {
-             type: Array,
-             required: false,
-             default: () => []
-         },
-         // Tells vue-simple-multi-select what key to use
-         // for generating option labels
-         optionLabel: {
-             type: String,
-             required: false,
-             default: () => null
-         },
-         // Tells vue-multi-select the value
-         // you want populated in the select for the 
-         // input
-         optionKey: {
-             type: String,
-             required: false,
-             default: () => null
-         },
-         // Give your input an html element id
-         placeholder: {
-             type: String,
-             required: false,
-             default: () => "Search Here"
-         },
-         maxHeight: {
-             type: String,
-             default: () => "220px",
-             required: false
-         },
-         //Give the input an id
-         inputId: {
-             type: String,
-             default: () => "multi-select",
-             required: false
-         },
-         // Seed search text with initial value
-         initial: {
-             type: String,
-             required: false,
-             default: () => null
-         },
-         // Make it required
-         required: {
-             type: Boolean,
-             required: false,
-             default: () => false
-         },
-         // Max number of results to show.
-         maxResults: {
-             type: Number,
-             required: false,
-             default: () => 30
-         },
-         //Meh
-         tabindex: {
-             type: String,
-             required: false,
-             default: () => {
-                 return "";
-             }
-         },
-         // Remove previously selected options
-         // via the delete key
-         keyboardDelete: {
-             type: Boolean,
-             required: false,
-             default: () => {
-                 return true;
-             }
-         },
-         // Tell vue-multi-select what to display
-         // as the selected options
-         getOptionDescription: {
-             type: Function,
-             default(option) {
-                 if (this.optionKey && this.optionLabel) {
-                     return option[this.optionKey] + " " + option[this.optionLabel];
-                 }
-                 if (this.optionLabel) {
-                     return option[this.optionLabel];
-                 }
-                 if (this.optionKey) {
-                     return option[this.optionKey];
-                 }
-                 return option;
-             }
-         },
-         // Use this to actually give vue-multi-select
-         // the values for doing a POST
-         getOptionValue: {
-             type: Function,
-             default(option) {
-                 if (this.optionKey) {
-                     return option[this.optionKey];
-                 }
+props: {
+    // This corresponds to v-model
+    value: {
+        required: true
+    },
+    // Use classes to override the look and feel
+    // Provide these 7 classes.
+    classes: {
+        type: Object,
+        required: false,
+        default: () => {
+            return {
+                active: 'active',
+                wrapper: "multi-select-wrapper",
+                searchWrapper: "search-wrapper",
+                searchInput: "search-input",
+                pill: "pill",
+                required: "required",
+                dropdown: "dropdown"
+            };
+        }
+    },
+    // Give your input a name
+    // Good for posting forms
+    name: {
+        type: String,
+        required: false,
+        default: () => ""
+    },
+    // Your list of things for the select   
+    options: {
+        type: Array,
+        required: false,
+        default: () => []
+    },
+    // Tells vue-simple-multi-select what key to use
+    // for generating option labels
+    optionLabel: {
+        type: String,
+        required: false,
+        default: () => null
+    },
+    // Tells vue-multi-select the value
+    // you want populated in the select for the 
+    // input
+    optionKey: {
+        type: String,
+        required: false,
+        default: () => null
+    },
+    // Give your input an html element id
+    placeholder: {
+        type: String,
+        required: false,
+        default: () => "Search Here"
+    },
+    maxHeight: {
+        type: String,
+        default: () => "220px",
+        required: false
+    },
+    //Give the input an id
+    inputId: {
+        type: String,
+        default: () => "multi-select",
+        required: false
+    },
+    // Seed search text with initial value
+    initial: {
+        type: String,
+        required: false,
+        default: () => null
+    },
+    // Make it required
+    required: {
+        type: Boolean,
+        required: false,
+        default: () => false
+    },
+    // Max number of results to show.
+    maxResults: {
+        type: Number,
+        required: false,
+        default: () => 30
+    },
+    //Meh
+    tabindex: {
+        type: String,
+        required: false,
+        default: () => {
+            return "";
+        }
+    },
+    // Remove previously selected options
+    // via the delete key
+    keyboardDelete: {
+        type: Boolean,
+        required: false,
+        default: () => {
+            return true;
+        }
+    },
+    // Tell vue-multi-select how to display
+    // selected options
+    getOptionDescription: {
+        type: Function,
+        default(option) {
+            if (this.optionKey && this.optionLabel) {
+                return option[this.optionKey] + " " + option[this.optionLabel];
+            }
+            if (this.optionLabel) {
+                return option[this.optionLabel];
+            }
+            if (this.optionKey) {
+                return option[this.optionKey];
+            }
+            return option;
+        }
+    },
+    // Use this to tell vue-multi-select
+    // the values are for doing a submit
+    getOptionValue: {
+        type: Function,
+        default(option) {
+            if (this.optionKey) {
+                return option[this.optionKey];
+            }
 
-                 if (this.optionLabel) {
-                     return option[this.optionLabel];
-                 }
+            if (this.optionLabel) {
+                return option[this.optionLabel];
+            }
 
-                 return option;
-             }
-         }
-     },
+            return option;
+        }
+    }
+},
 ```	 
 

@@ -1,6 +1,6 @@
 {
     "name": "vue-simple-multi-select",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "multiple select autocomplete dropdown for vue",
     "main": "dist/index",
     "unpkg": "dist/vue-multi-select.js",
@@ -8,12 +8,12 @@
         "./sfc": "dist/vue-multi-select.vue"
     },
     "scripts": {
-        "prepublish": "npm build",
+        "prepublish": "npm run build",
         "serve": "vue-cli-service serve",
         "vbuild": "vue-cli-service build",
         "lint": "vue-cli-service lint",
-        "dev": "cross-env NODE_ENV=development webpack",
-        "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+        "dev": "NODE_ENV=development webpack",
+        "build": "NODE_ENV=production webpack --progress --hide-modules"
     },
     "repository": {
         "type": "git",
