@@ -84,7 +84,7 @@ Globally:
 
 ```javascript
 import VueMultiSelect from "vue-simple-multi-select";
-Vue.component('vue-multi-select', VuemultiSelect);
+Vue.component('vue-multi-select', VueMultiSelect);
 ```
 
 ### Use It
